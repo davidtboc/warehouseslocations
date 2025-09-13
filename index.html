@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Warehouses - Members Only</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app" class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl mx-auto">
+        <h1 class="text-4xl font-bold mb-4 text-gray-800">Amazon Warehouses Map</h1>
+        <p class="text-gray-600 mb-6">Access a full, interactive map of all Amazon facilities worldwide. This content is for members only. To view the map, please log in or subscribe.</p>
+
+        <div id="login-section">
+            <!-- This button will eventually be replaced by your backend authentication logic -->
+            <button onclick="simulateLogin()" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors duration-300 shadow-md">
+                Simulate Login & View Map
+            </button>
+        </div>
+        
+        <!-- This container will hold the map after a successful login -->
+        <div id="map-container" class="mt-8 hidden">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Interactive Map</h2>
+            <!-- The folium-generated map will be loaded here dynamically -->
+        </div>
+
+    </div>
+
+    <script>
+        function simulateLogin() {
+            // In a real application, you would make an API call to your backend
+            // to check for a valid session or subscription status.
+            
+            // For this simulation, we'll just show the map container and load the map.
+            const loginSection = document.getElementById('login-section');
+            const mapContainer = document.getElementById('map-container');
+
+            loginSection.classList.add('hidden');
+            mapContainer.classList.remove('hidden');
+
+            loadMap();
+        }
+
+        function loadMap() {
+            const mapContainer = document.getElementById('map-container');
+            
+            // Load the folium-generated HTML file into the container
+            fetch('location_map.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Map file not found or could not be loaded.');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    mapContainer.innerHTML = html;
+                })
+                .catch(error => {
+                    mapContainer.innerHTML = `<p class="text-red-500">Error loading map: ${error.message}</p>`;
+                    console.error('Error loading map:', error);
+                });
+        }
+    </script>
+</body>
+</html>
